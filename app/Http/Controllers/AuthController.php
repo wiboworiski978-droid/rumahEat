@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request): RedirectResponse 
     {
-        $credentials = $request->validate();
+        $credentials = $request->validated();
         
         if (!Auth::attempt($credentials)) {
             return back()
