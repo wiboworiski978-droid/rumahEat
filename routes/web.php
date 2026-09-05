@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
@@ -10,6 +11,32 @@ Route::get('/login', function () {
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.process');
 
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('loogut');
+Route::middleware('auth')->group(function () {
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+
+    Route::middleware('role:admin')
+        ->prefix('admin')
+        ->name('admin.')
+        ->group(function () {
+            Route::get('/dashboard', [DashboardController::class, 'admin'])
+                ->name('dashboard');
+        });
+
+    Route::middleware('role:dapur')
+        ->prefix('dapur')
+        ->name('dapur.')
+        ->group(function () {
+            Route::get('/dashboard', [DashboardController::class, 'dapur'])
+                ->name('dashboard');
+        });
+
+    Route::middleware('role:pemilik')
+        ->prefix('pemilik')
+        ->name('pemilik.')
+        ->group(function () {
+            Route::get('/dashboard', [DashboardController::class, 'pemilik'])
+                ->name('dashboard');
+        });
+});

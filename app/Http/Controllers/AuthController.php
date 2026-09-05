@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         return match ($user->role) {
             'admin' => redirect()->route('admin.dashboard'),
-            'dapur' => redirect()->route('dapur.dashboar'),
+            'dapur' => redirect()->route('dapur.dashboard'),
             'pemilik' => redirect()->route('pemilik.dashboard'),
             default => abort(403, 'Role tidak valid'),
         };
