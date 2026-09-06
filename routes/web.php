@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,9 @@ Route::middleware('auth')->group(function () {
         ->group(function () {
             Route::get('/dashboard', [DashboardController::class, 'admin'])
                 ->name('dashboard');
+
+            Route::resource('categories', CategoryController::class)
+                ->except(['show']);
         });
 
     Route::middleware('role:dapur')
